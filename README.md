@@ -9,4 +9,7 @@
 - [brew](https://brew.sh/)
 - [mcfly](https://github.com/cantino/mcfly)
 - [starship](https://starship.rs/)
+- [gcloud](https://cloud.google.com/sdk/docs)
 
+### Only on macOS
+- [JetBrains Mono](https://www.jetbrains.com/lp/mono/)

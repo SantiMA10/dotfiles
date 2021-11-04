@@ -68,7 +68,45 @@ const installFonts = async () => {
   console.log("✅ Fonts installed!");
 };
 
-await installBrew();
-await installMcFly();
-await installStarship();
-await installFonts();
+const installGcloudSDK = async () => {
+  if (!["darwin", "linux"].includes(os.platform())) {
+    console.log(
+      "😞 skipping gcloud installation, since it is only for macOS/Linux"
+    );
+    return;
+  }
+
+  const { exitCode: exitCodePython } = await nothrow($`python -V >> /dev/null`);
+
+  if (exitCodePython !== 0) {
+    console.log("😉 skipping gcloud, since it needs python");
+    return;
+  }
+
+  const { exitCode } = await nothrow($`gcloud -v >> /dev/null`);
+
+  if (exitCode === 0) {
+    console.log("😉 skipping gcloud, since it is already installed");
+    return;
+  }
+
+  console.log("🏋️‍♀️ installing gcloud...");
+  // https://github.com/google/zx/blob/main/examples/interactive.mjs 👀
+
+  // let { stdin, stdout } = $`curl https://sdk.cloud.google.com | bash`;
+  // stdin.write("\n");
+  // stdin.write("N\n");
+
+  console.log("✅ gcloud installed!");
+};
+
+try {
+  await installBrew();
+  await installMcFly();
+  await installStarship();
+  await installFonts();
+} catch (e) {
+  console.log("😢 something goes wrong during the homebrew installation");
+}
+
+await installGcloudSDK();
