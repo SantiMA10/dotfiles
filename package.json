@@ -1,0 +1,15 @@
+{
+  "name": "dotfiles",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/SantiMA10/dotfiles",
+  "author": "Santi <open-source@santiagomartin.dev>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "zx src/index.mjs"
+  },
+  "dependencies": {
+    "zx": "^4.2.0"
+  }
+}

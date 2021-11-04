@@ -1,4 +1,4 @@
-#!/usr/bin/env zx
+import "zx/globals";
 
 const installBrew = async () => {
   const { exitCode } = await nothrow($`brew help >> /dev/null`);
@@ -15,6 +15,7 @@ const installBrew = async () => {
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc`;
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.profile`;
   await $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`;
+  await $`source /home/codespace/.profile`;
   console.log("✅ homebrew installed!");
 };
 
@@ -93,7 +94,7 @@ const installGcloudSDK = async () => {
   console.log("🏋️‍♀️ installing gcloud...");
   // https://github.com/google/zx/blob/main/examples/interactive.mjs 👀
 
-  // let { stdin, stdout } = $`curl https://sdk.cloud.google.com | bash`;
+  let { stdin, stdout } = $`curl https://sdk.cloud.google.com | bash`;
   // stdin.write("\n");
   // stdin.write("N\n");
 

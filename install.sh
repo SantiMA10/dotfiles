@@ -2,4 +2,5 @@
 
 set -e
 
-npx zx ./install.mjs
+yarn install --frozen-lockfile
+yarn start
