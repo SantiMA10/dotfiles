@@ -13,6 +13,7 @@ const installBrew = async () => {
   brewInstaller.stdin.write("\n");
   await brewInstaller;
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc`;
+  await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.profile`;
   await $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`;
   console.log("✅ homebrew installed!");
 };
@@ -46,6 +47,28 @@ const installStarship = async () => {
   console.log("✅ Starship installed!");
 };
 
+const installFonts = async () => {
+  if (os.platform() !== "darwin") {
+    console.log("😞 skipping font installation, since it is only for macOS");
+    return;
+  }
+
+  const { exitCode } = await nothrow(
+    $`brew upgrade font-jetbrains-mono-nerd-font >> /dev/null`
+  );
+
+  if (exitCode === 0) {
+    console.log("😉 skipping fonts, since it is already installed");
+    return;
+  }
+
+  console.log("🏋️‍♀️ installing fonts...");
+  await $`brew tap homebrew/cask-fonts`;
+  await $`brew install font-jetbrains-mono-nerd-font`;
+  console.log("✅ Fonts installed!");
+};
+
 await installBrew();
 await installMcFly();
 await installStarship();
+await installFonts();
