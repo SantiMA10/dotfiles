@@ -13,10 +13,15 @@ const installBrew = async () => {
   brewInstaller.stdin.write("\n");
   await brewInstaller;
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc`;
-  await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.profile`;
+  await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile`;
   await $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`;
   await $`source /home/codespace/.profile`;
   console.log("✅ homebrew installed!");
+  
+  
+  console.log("🏋️‍♀️ installing from brewfile...");
+  await $`brew bundle`
+  console.log("✅ brewfile installed!");
 };
 
 const installMcFly = async () => {
@@ -28,8 +33,6 @@ const installMcFly = async () => {
   }
 
   console.log("🏋️‍♀️ installing McFly...");
-  await $`brew tap cantino/mcfly`;
-  await $`brew install mcfly`;
   await $`echo 'eval "$(mcfly init zsh)"' >> ~/.zshrc`;
   console.log("✅ McFly installed!");
 };
@@ -43,7 +46,6 @@ const installStarship = async () => {
   }
 
   console.log("🏋️‍♀️ installing Starship...");
-  await $`brew install starship`;
   await $`echo 'eval "$(starship init zsh)"' >> ~/.zshrc`;
   console.log("✅ Starship installed!");
 };
@@ -105,9 +107,9 @@ try {
   await installBrew();
   await installMcFly();
   await installStarship();
-  await installFonts();
+  // await installFonts();
 } catch (e) {
   console.log("😢 something goes wrong during the homebrew installation");
 }
 
-await installGcloudSDK();
+// await installGcloudSDK();
