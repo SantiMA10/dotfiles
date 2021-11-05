@@ -2,5 +2,5 @@
 
 set -e
 
-yarn install --frozen-lockfile
-yarn start
+npm ci
+npm start
