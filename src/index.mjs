@@ -1,8 +1,20 @@
 import "zx/globals";
 
+const getHomebrewPath = () => {
+  if (os.platform() === "darwin") {
+    return "/usr/local/bin/brew";
+  }
+
+  if (os.platform() === "linux") {
+    return "/home/linuxbrew/.linuxbrew/bin/brew";
+  }
+
+  throw new Error(`unsupported platform: ${os.platform()}`);
+};
+
 const installBrew = async () => {
   const { exitCode } = await nothrow(
-    $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew help >> /dev/null`
+    $`eval "$(${getHomebrewPath()} shellenv)" && brew help >> /dev/null`
   );
 
   if (exitCode === 0) {
@@ -13,15 +25,15 @@ const installBrew = async () => {
   console.log("🏋️‍♀️ installing homebrew...");
 
   await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
-  await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc`;
-  await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile`;
+  await $`echo 'eval "$(${getHomebrewPath()} shellenv)"' >> ~/.zshrc`;
+  await $`echo 'eval "$(${getHomebrewPath()} shellenv)"' >> ~/.profile`;
 
   console.log("✅ homebrew installed!");
 };
 
 const installBrewfile = async () => {
   const { exitCode } = await nothrow(
-    $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew help >> /dev/null`
+    $`eval "$(${getHomebrewPath()} shellenv)" && brew help >> /dev/null`
   );
 
   if (exitCode !== 0) {
@@ -30,7 +42,7 @@ const installBrewfile = async () => {
   }
 
   console.log("🏋️‍♀️ installing from brewfile...");
-  await $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew bundle`;
+  await $`eval "$(${getHomebrewPath()} shellenv)" && brew bundle`;
   console.log("✅ brewfile installed!");
 
   await $`echo 'eval "$(mcfly init zsh)"' >> ~/.zshrc`;
