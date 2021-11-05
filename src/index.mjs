@@ -17,7 +17,6 @@ const installBrew = async () => {
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc`;
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile`;
 
-  await $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`;
   await $`exec -l $SHELL`;
 
   console.log("✅ homebrew installed!");
@@ -27,7 +26,7 @@ const installBrewfile = async () => {
   const { exitCode } = await nothrow($`brew help >> /dev/null`);
 
   if (exitCode !== 0) {
-    console.log("🙃 without brew, skipping brew file");
+    console.log("🙃 without brew, skipping brewfile");
     return;
   }
 
