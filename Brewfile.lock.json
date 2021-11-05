@@ -8,7 +8,7 @@
         "revision": "e11704f58688da7e9d0192d08ff2b31c252a2f6b"
       },
       "homebrew/core": {
-        "revision": "e46c0b459f2a176cfc9ad1ec6f17f00c5d69f307"
+        "revision": "5d565e917ddbf2a6f3eccb8acc04ab4084aa96fe"
       },
       "homebrew/cask-fonts": {
         "revision": "af813d6bb0bf96e39759bc44216073390306d3cb"
@@ -70,7 +70,7 @@
       "Ubuntu 20.04.3 LTS (focal)": {
         "HOMEBREW_VERSION": "3.3.2-57-g6f722be",
         "HOMEBREW_PREFIX": "/home/linuxbrew/.linuxbrew",
-        "Homebrew/linuxbrew-core": "e46c0b459f2a176cfc9ad1ec6f17f00c5d69f307",
+        "Homebrew/linuxbrew-core": "5d565e917ddbf2a6f3eccb8acc04ab4084aa96fe",
         "GCC": "9.3.0"
       }
     }
