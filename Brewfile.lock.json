@@ -9,6 +9,9 @@
       },
       "homebrew/core": {
         "revision": "e46c0b459f2a176cfc9ad1ec6f17f00c5d69f307"
+      },
+      "homebrew/cask-fonts": {
+        "revision": "af813d6bb0bf96e39759bc44216073390306d3cb"
       }
     },
     "brew": {

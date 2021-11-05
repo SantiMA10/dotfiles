@@ -4,50 +4,39 @@ const installBrew = async () => {
   const { exitCode } = await nothrow($`brew help >> /dev/null`);
 
   if (exitCode === 0) {
-    console.log("😉 skipping brew, since it is already installed");
+    console.log("😉 skipping installing brew, since it is already installed");
     return;
   }
 
   console.log("🏋️‍♀️ installing homebrew...");
+
   const brewInstaller = $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
   brewInstaller.stdin.write("\n");
   await brewInstaller;
+
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc`;
   await $`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile`;
+
   await $`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`;
-  await $`source /home/codespace/.profile`;
+  await $`exec -l $SHELL`;
+
   console.log("✅ homebrew installed!");
-  
-  
+};
+
+const installBrewfile = async () => {
+  const { exitCode } = await nothrow($`brew help >> /dev/null`);
+
+  if (exitCode !== 0) {
+    console.log("🙃 without brew, skipping brew file");
+    return;
+  }
+
   console.log("🏋️‍♀️ installing from brewfile...");
-  await $`brew bundle`
+  await $`brew bundle`;
   console.log("✅ brewfile installed!");
-};
 
-const installMcFly = async () => {
-  const { exitCode } = await nothrow($`brew upgrade mcfly >> /dev/null`);
-
-  if (exitCode === 0) {
-    console.log("😉 skipping McFly, since it is already installed");
-    return;
-  }
-
-  console.log("🏋️‍♀️ installing McFly...");
   await $`echo 'eval "$(mcfly init zsh)"' >> ~/.zshrc`;
-  console.log("✅ McFly installed!");
-};
-
-const installStarship = async () => {
-  const { exitCode } = await nothrow($`brew upgrade starship >> /dev/null`);
-
-  if (exitCode === 0) {
-    console.log("😉 skipping Starship, since it is already installed");
-    return;
-  }
-
-  console.log("🏋️‍♀️ installing Starship...");
   await $`echo 'eval "$(starship init zsh)"' >> ~/.zshrc`;
-  console.log("✅ Starship installed!");
 };
 
 const installFonts = async () => {
@@ -105,9 +94,7 @@ const installGcloudSDK = async () => {
 
 try {
   await installBrew();
-  await installMcFly();
-  await installStarship();
-  // await installFonts();
+  await installBrewfile();
 } catch (e) {
   console.log("😢 something goes wrong during the homebrew installation");
 }
