@@ -60,12 +60,11 @@ const installGcloudSDK = async () => {
   }
 
   console.log("🏋️‍♀️ installing gcloud...");
-  // https://github.com/google/zx/blob/main/examples/interactive.mjs 👀
-
-  let { stdin, stdout } = $`curl https://sdk.cloud.google.com | bash`;
-  // stdin.write("\n");
-  // stdin.write("N\n");
-
+  await $`curl https://sdk.cloud.google.com > install-gcloud.sh`;
+  await $`bash install-gcloud.sh --disable-prompts`;
+  await $`rm install-gcloud.sh `;
+  await $`echo 'source "$HOME/google-cloud-sdk/path.zsh.inc"' >> ~/.zshrc`;
+  await $`echo 'source "$HOME/google-cloud-sdk/completion.zsh.inc"' >> ~/.zshrc`;
   console.log("✅ gcloud installed!");
 };
 
@@ -76,4 +75,4 @@ try {
   console.log("😢 something goes wrong during the homebrew installation");
 }
 
-// await installGcloudSDK();
+await installGcloudSDK();
