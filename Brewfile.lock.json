@@ -8,10 +8,10 @@
         "revision": "e11704f58688da7e9d0192d08ff2b31c252a2f6b"
       },
       "homebrew/core": {
-        "revision": "5d565e917ddbf2a6f3eccb8acc04ab4084aa96fe"
+        "revision": "c4afdfbc730ffc04cde7588b42adbbde105f3f00"
       },
       "homebrew/cask-fonts": {
-        "revision": "af813d6bb0bf96e39759bc44216073390306d3cb"
+        "revision": "ed806ed70c0c5d6add8b54fb3e668fd0f7f1ee98"
       }
     },
     "brew": {
@@ -68,9 +68,9 @@
   "system": {
     "linux": {
       "Ubuntu 20.04.3 LTS (focal)": {
-        "HOMEBREW_VERSION": "3.3.2-57-g6f722be",
+        "HOMEBREW_VERSION": "3.3.2",
         "HOMEBREW_PREFIX": "/home/linuxbrew/.linuxbrew",
-        "Homebrew/linuxbrew-core": "5d565e917ddbf2a6f3eccb8acc04ab4084aa96fe",
+        "Homebrew/linuxbrew-core": "c4afdfbc730ffc04cde7588b42adbbde105f3f00",
         "GCC": "9.3.0"
       }
     }

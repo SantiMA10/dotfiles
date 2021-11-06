@@ -1,5 +1,20 @@
 import "zx/globals";
 
+const isConfigured = async (config, file = ".zshrc") => {
+  const filepath = `${os.homedir()}/${file}`;
+
+  const content = await fs.readFile(filepath);
+  const configured = content.toString().includes(config);
+
+  console.log(
+    `${
+      configured ? "✅" : "❌"
+    } checking if ${filepath} is configured: ${config}`
+  );
+
+  return configured;
+};
+
 const getHomebrewPath = () => {
   if (os.platform() === "darwin") {
     return "/usr/local/bin/brew";
@@ -25,8 +40,18 @@ const installBrew = async () => {
   console.log("🏋️‍♀️ installing homebrew...");
 
   await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
-  await $`echo 'eval "$(${getHomebrewPath()} shellenv)"' >> ~/.zshrc`;
-  await $`echo 'eval "$(${getHomebrewPath()} shellenv)"' >> ~/.profile`;
+
+  if (!(await isConfigured('eval "$(${getHomebrewPath()} shellenv)"'))) {
+    console.log("📝 adding brew to .zshrc");
+    await $`echo 'eval "$(${getHomebrewPath()} shellenv)"' >> ~/.zshrc`;
+  }
+
+  if (
+    !(await isConfigured('eval "$(${getHomebrewPath()} shellenv)"', ".profile"))
+  ) {
+    console.log("📝 adding brew to .profile");
+    await $`echo 'eval "$(${getHomebrewPath()} shellenv)"' >> ~/.profile`;
+  }
 
   console.log("✅ homebrew installed!");
 };
@@ -45,8 +70,15 @@ const installBrewfile = async () => {
   await $`eval "$(${getHomebrewPath()} shellenv)" && brew bundle`;
   console.log("✅ brewfile installed!");
 
-  await $`echo 'eval "$(mcfly init zsh)"' >> ~/.zshrc`;
-  await $`echo 'eval "$(starship init zsh)"' >> ~/.zshrc`;
+  if (!(await isConfigured('eval "$(mcfly init zsh)"'))) {
+    console.log("📝 adding mcfly to .zshrc");
+    await $`echo 'eval "$(mcfly init zsh)"' >> ~/.zshrc`;
+  }
+
+  if (!(await isConfigured('eval "$(starship init zsh)"'))) {
+    console.log("📝 adding starship to .zshrc");
+    await $`echo 'eval "$(starship init zsh)"' >> ~/.zshrc`;
+  }
 };
 
 const installGcloudSDK = async () => {
@@ -75,9 +107,19 @@ const installGcloudSDK = async () => {
   await $`curl https://sdk.cloud.google.com > install-gcloud.sh`;
   await $`bash install-gcloud.sh --disable-prompts`;
   await $`rm install-gcloud.sh `;
-  await $`echo 'source "$HOME/google-cloud-sdk/path.zsh.inc"' >> ~/.zshrc`;
-  await $`echo 'source "$HOME/google-cloud-sdk/completion.zsh.inc"' >> ~/.zshrc`;
   console.log("✅ gcloud installed!");
+
+  if (!(await isConfigured('source "$HOME/google-cloud-sdk/path.zsh.inc"'))) {
+    console.log("📝 adding gcloud path to .zshrc");
+    await $`echo 'source "$HOME/google-cloud-sdk/path.zsh.inc"' >> ~/.zshrc`;
+  }
+
+  if (
+    !(await isConfigured('source "$HOME/google-cloud-sdk/completion.zsh.inc"'))
+  ) {
+    console.log("📝 adding gcloud completion to .zshrc");
+    await $`echo 'source "$HOME/google-cloud-sdk/completion.zsh.inc"' >> ~/.zshrc`;
+  }
 };
 
 try {
